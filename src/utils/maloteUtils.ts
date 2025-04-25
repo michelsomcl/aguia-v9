@@ -53,10 +53,18 @@ export const formatDate = (dateString: string | undefined | null): string => {
   if (!dateString) return "";
 
   try {
+    // If the date is already formatted as dd/mm/yyyy, return it as is
     if (dateString.includes("/")) {
       return dateString;
     }
 
+    // Handle ISO date format
+    if (dateString.includes("T")) {
+      const date = new Date(dateString);
+      return format(date, "dd/MM/yyyy", { locale: ptBR });
+    }
+
+    // Handle other date formats
     const date = new Date(dateString);
     return format(date, "dd/MM/yyyy", { locale: ptBR });
   } catch (error) {

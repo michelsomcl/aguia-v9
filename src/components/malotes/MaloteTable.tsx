@@ -2,7 +2,7 @@
 import { DataTable } from "@/components/ui/data-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Malote } from "@/types/malote";
-import { maloteColumns } from "@/utils/maloteUtils";
+import { maloteColumns, formatDate } from "@/utils/maloteUtils";
 import { useEffect, useRef } from "react";
 
 interface MaloteTableProps {
@@ -19,6 +19,14 @@ export function MaloteTable({
   onDelete 
 }: MaloteTableProps) {
   const tableRef = useRef<HTMLDivElement>(null);
+
+  // Format dates for display
+  const formattedMalotes = malotes.map(malote => ({
+    ...malote,
+    data_cadastro: formatDate(malote.data_cadastro),
+    data_chegada: formatDate(malote.data_chegada),
+    data_entrega: formatDate(malote.data_entrega)
+  }));
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -44,11 +52,11 @@ export function MaloteTable({
       <CardContent className="pt-6">
         <div ref={tableRef} className="overflow-x-auto">
           <DataTable
-            data={malotes}
+            data={formattedMalotes}
             columns={maloteColumns}
             onSelectionChange={onSelectionChange}
             enableSelection={true}
-            onRowClick={onEdit ? (row) => onEdit(row) : undefined}
+            onRowClick={undefined} // Disable edit functionality by removing the click handler
             actions={onDelete ? (row) => (
               <button 
                 onClick={(e) => {
