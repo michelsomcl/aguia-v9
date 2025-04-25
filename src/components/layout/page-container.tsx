@@ -1,6 +1,7 @@
 
 import { ReactNode } from "react";
 import { Header } from "./header";
+import { Footer } from "./footer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -43,6 +44,7 @@ export function PageContainer({ children, title, backUrl }: PageContainerProps) 
         )}
         {children}
       </main>
+      <Footer />
     </div>
   );
 }
